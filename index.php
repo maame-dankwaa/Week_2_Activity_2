@@ -43,6 +43,11 @@ session_start();
 		<span class="me-2">Menu:</span>
 		<?php if (isset($_SESSION['user_id'])): ?>
 			<span class="me-2 text-muted">Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?>!</span>
+			<?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin'): ?>
+				<a href="category.php" class="btn btn-sm btn-outline-success">
+					<i class="fa fa-tags me-1"></i>Category
+				</a>
+			<?php endif; ?>
 			<a href="login/logout.php" class="btn btn-sm btn-outline-danger">
 				<i class="fa fa-sign-out-alt me-1"></i>Logout
 			</a>
