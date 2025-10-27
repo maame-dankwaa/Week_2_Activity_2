@@ -3,6 +3,7 @@ require_once '../settings/core.php';
 
 header('Content-Type: application/json');
 
+
 $response = array();
 
 // Check if user is logged in
@@ -21,29 +22,29 @@ if (!isAdmin()) {
     exit();
 }
 
-require_once '../controllers/category_controller.php';
+require_once '../controllers/brand_controller.php';
 
 // Get form data
-$cat_id = isset($_POST['cat_id']) ? (int)$_POST['cat_id'] : 0;
+$brand_id = isset($_POST['brand_id']) ? (int)$_POST['brand_id'] : 0;
 $user_id = getUserID();
 
 // Validate input
-if ($cat_id <= 0) {
+if ($brand_id <= 0) {
     $response['status'] = 'error';
-    $response['message'] = 'Invalid category ID';
+    $response['message'] = 'Invalid brand ID';
     echo json_encode($response);
     exit();
 }
 
-// Delete category
-$result = delete_category_ctr($cat_id, $user_id);
+// Delete brand
+$result = delete_brand_ctr($brand_id, $user_id);
 
 if ($result) {
     $response['status'] = 'success';
-    $response['message'] = 'Category deleted successfully';
+    $response['message'] = 'Brand deleted successfully';
 } else {
     $response['status'] = 'error';
-    $response['message'] = 'Failed to delete category. You may not have permission to delete this category.';
+    $response['message'] = 'Failed to delete brand';
 }
 
 echo json_encode($response);

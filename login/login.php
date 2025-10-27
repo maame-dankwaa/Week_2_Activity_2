@@ -1,3 +1,40 @@
+<?php
+require_once '../settings/core.php';
+require_once '../controllers/customer_controller.php';
+
+// If you already have a complete session (id + role), skip login.
+$has_id   = isset($_SESSION['id']) || isset($_SESSION['user_id']);
+$has_role = isset($_SESSION['user_role']);
+
+if ($has_id && $has_role) {
+    header('Location: ../index.php');
+    exit();
+}
+
+$error = null;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email    = trim($_POST['email'] ?? '');
+    $password = trim($_POST['password'] ?? '');
+
+    // Example: get user by email
+    $customer = get_customer_by_email_ctr($email); // <- your existing controller
+
+    if ($customer && password_verify($password, $customer['customer_pass'])) {
+        // ✅ Set ALL session keys consistently (numeric role per your DB)
+        $_SESSION['id']        = (int)$customer['customer_id'];
+        $_SESSION['user_id']   = (int)$customer['customer_id']; // compatibility
+        $_SESSION['user_name'] = $customer['customer_name'] ?? '';
+        $_SESSION['user_role'] = (int)$customer['user_role'];   // 1=admin, 2=customer
+
+        header('Location: ../index.php');
+        exit();
+    } else {
+        $error = 'Invalid email or password.';
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

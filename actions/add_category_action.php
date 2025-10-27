@@ -1,13 +1,15 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+require_once '../settings/core.php';
 
 header('Content-Type: application/json');
-
-session_start();
 
 $response = array();
 
 // Check if user is logged in
-if (!isset($_SESSION['id'])) {
+if (!isUserLoggedIn()) {
     $response['status'] = 'error';
     $response['message'] = 'User not logged in';
     echo json_encode($response);
@@ -15,7 +17,7 @@ if (!isset($_SESSION['id'])) {
 }
 
 // Check if user is admin
-if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+if (!isAdmin()) {
     $response['status'] = 'error';
     $response['message'] = 'Access denied. Admin privileges required.';
     echo json_encode($response);
@@ -26,7 +28,7 @@ require_once '../controllers/category_controller.php';
 
 // Get form data
 $cat_name = isset($_POST['cat_name']) ? trim($_POST['cat_name']) : '';
-$user_id = $_SESSION['id'];
+$user_id = getUserID();
 
 // Validate input
 if (empty($cat_name)) {
@@ -49,3 +51,4 @@ if ($result) {
 }
 
 echo json_encode($response);
+?>

@@ -21,29 +21,38 @@ if (!isAdmin()) {
     exit();
 }
 
-require_once '../controllers/category_controller.php';
+require_once '../controllers/brand_controller.php';
 
 // Get form data
-$cat_id = isset($_POST['cat_id']) ? (int)$_POST['cat_id'] : 0;
+$brand_name = isset($_POST['brand_name']) ? trim($_POST['brand_name']) : '';
+$category_id = isset($_POST['category_id']) ? (int)$_POST['category_id'] : 0;
 $user_id = getUserID();
 
 // Validate input
-if ($cat_id <= 0) {
+if (empty($brand_name)) {
     $response['status'] = 'error';
-    $response['message'] = 'Invalid category ID';
+    $response['message'] = 'Brand name is required';
     echo json_encode($response);
     exit();
 }
 
-// Delete category
-$result = delete_category_ctr($cat_id, $user_id);
+if ($category_id <= 0) {
+    $response['status'] = 'error';
+    $response['message'] = 'Please select a valid category';
+    echo json_encode($response);
+    exit();
+}
+
+// Add brand
+$result = add_brand_ctr($brand_name, $category_id, $user_id);
 
 if ($result) {
     $response['status'] = 'success';
-    $response['message'] = 'Category deleted successfully';
+    $response['message'] = 'Brand created successfully';
+    $response['brand_id'] = $result;
 } else {
     $response['status'] = 'error';
-    $response['message'] = 'Failed to delete category. You may not have permission to delete this category.';
+    $response['message'] = 'Failed to create brand. Brand name may already exist in this category.';
 }
 
 echo json_encode($response);

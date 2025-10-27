@@ -134,3 +134,4 @@ class Category extends db_connection
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 }
+?>

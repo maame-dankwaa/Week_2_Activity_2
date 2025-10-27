@@ -1,13 +1,13 @@
 <?php
+require_once '../settings/core.php';
 
 header('Content-Type: application/json');
 
-session_start();
 
 $response = array();
 
 // Check if user is logged in
-if (!isset($_SESSION['id'])) {
+if (!isUserLoggedIn()) {
     $response['status'] = 'error';
     $response['message'] = 'User not logged in';
     echo json_encode($response);
@@ -15,7 +15,7 @@ if (!isset($_SESSION['id'])) {
 }
 
 // Check if user is admin
-if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+if (!isAdmin()) {
     $response['status'] = 'error';
     $response['message'] = 'Access denied. Admin privileges required.';
     echo json_encode($response);
@@ -24,7 +24,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
 
 require_once '../controllers/category_controller.php';
 
-$user_id = $_SESSION['id'];
+$user_id = getUserID();
 
 // Fetch categories for the logged-in user
 $categories = fetch_categories_ctr($user_id);
@@ -40,3 +40,4 @@ if ($categories !== false) {
 }
 
 echo json_encode($response);
+?>

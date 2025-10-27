@@ -55,3 +55,4 @@ function get_category_by_id_ctr($cat_id, $user_id)
     }
     return false;
 }
+?>

@@ -93,12 +93,19 @@ function closeModal() {
 
 // Fetch all categories
 function fetchCategories() {
-    fetch('actions/fetch_category_action.php', {
+    fetch('../actions/fetch_category_action.php', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         }
     })
+    /*
+    .then(response => response.text())  // Changed from .json() to .text()
+    .then(text => {
+        console.log('Raw response:', text);  // See what's actually returned
+        const data = JSON.parse(text);  // Then parse it
+    })
+    */
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
@@ -111,6 +118,7 @@ function fetchCategories() {
         console.error('Error:', error);
         showModal('Error', 'Failed to fetch categories', 'error');
     });
+
 }
 
 // Display categories in the table
@@ -149,10 +157,30 @@ function addCategory() {
     const formData = new FormData();
     formData.append('cat_name', catName);
 
-    fetch('actions/add_category_action.php', {
+    fetch('../actions/add_category_action.php', {
         method: 'POST',
         body: formData
     })
+       /*
+    .then(response => response.text())
+    .then(text => {
+     
+        console.log('Full raw response:', text);
+        
+        // Show first 500 characters in alert
+        alert('Response (first 500 chars): ' + text.substring(0, 500));
+        
+        // Try to parse JSON
+        const data = JSON.parse(text);
+        if (data.status === 'success') {
+            showModal('Success', data.message, 'success');
+            document.getElementById('cat_name').value = '';
+            fetchCategories();
+        } else {
+            showModal('Error', data.message, 'error');
+        }
+    })
+        */
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
@@ -185,7 +213,7 @@ function updateCategory() {
     formData.append('cat_id', catId);
     formData.append('cat_name', catName);
 
-    fetch('actions/update_category_action.php', {
+    fetch('../actions/update_category_action.php', {
         method: 'POST',
         body: formData
     })
@@ -214,7 +242,7 @@ function deleteCategory(catId, catName) {
     const formData = new FormData();
     formData.append('cat_id', catId);
 
-    fetch('actions/delete_category_action.php', {
+    fetch('../actions/delete_category_action.php', {
         method: 'POST',
         body: formData
     })

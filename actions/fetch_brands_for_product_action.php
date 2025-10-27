@@ -21,29 +21,19 @@ if (!isAdmin()) {
     exit();
 }
 
-require_once '../controllers/category_controller.php';
+require_once '../controllers/product_controller.php';
 
-// Get form data
-$cat_id = isset($_POST['cat_id']) ? (int)$_POST['cat_id'] : 0;
 $user_id = getUserID();
 
-// Validate input
-if ($cat_id <= 0) {
-    $response['status'] = 'error';
-    $response['message'] = 'Invalid category ID';
-    echo json_encode($response);
-    exit();
-}
+// Get brands for dropdown
+$brands = get_brands_for_product_ctr($user_id);
 
-// Delete category
-$result = delete_category_ctr($cat_id, $user_id);
-
-if ($result) {
+if ($brands !== false) {
     $response['status'] = 'success';
-    $response['message'] = 'Category deleted successfully';
+    $response['data'] = $brands;
 } else {
     $response['status'] = 'error';
-    $response['message'] = 'Failed to delete category. You may not have permission to delete this category.';
+    $response['message'] = 'Failed to fetch brands';
 }
 
 echo json_encode($response);
