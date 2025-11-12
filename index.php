@@ -111,8 +111,8 @@ $is_logged_in = function_exists('isUserLoggedIn')
             Welcome, <strong class="ms-1"><?php echo htmlspecialchars($_SESSION['user_name'] ?? 'User'); ?></strong>
           </li>
           <li class="nav-item">
-            <a href="login/login.php" class="btn btn-sm btn-outline-danger">
-              <i class="fa fa-sign-out-alt me-1"></i>Login
+            <a href="login/logout.php" class="btn btn-sm btn-outline-danger">
+              <i class="fa fa-sign-out-alt me-1"></i>Logout
             </a>
           </li>
         <?php else: ?>
@@ -122,8 +122,8 @@ $is_logged_in = function_exists('isUserLoggedIn')
             </a>
           </li>
           <li class="nav-item">
-            <a href="login/logout.php" class="btn btn-sm btn-outline-secondary">
-              <i class="fa fa-sign-in-alt me-1"></i>Logout
+            <a href="login/login.php" class="btn btn-sm btn-outline-secondary">
+              <i class="fa fa-sign-in-alt me-1"></i>Login
             </a>
           </li>
         <?php endif; ?>
