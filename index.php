@@ -76,6 +76,12 @@ $is_logged_in = function_exists('isUserLoggedIn')
             <i class="fa fa-box me-1"></i>All Products
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link position-relative" href="view/cart.php">
+            <i class="fa fa-shopping-cart me-1"></i>Cart
+            <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none; font-size: 0.6rem;">0</span>
+          </a>
+        </li>
 
         <?php if ($is_admin): ?>
           <li class="nav-item">
@@ -159,5 +165,6 @@ $is_logged_in = function_exists('isUserLoggedIn')
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="js/cart.js"></script>
 </body>
 </html>

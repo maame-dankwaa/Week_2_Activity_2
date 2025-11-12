@@ -341,10 +341,55 @@ function viewProduct(productId) {
     window.location.href = `../view/single_product.php?id=${productId}`;
 }
 
-// Add to cart (placeholder)
+// Add to cart
 function addToCart(productId) {
-    // Placeholder for add to cart functionality
-    alert(`Add to Cart functionality will be implemented in future labs. Product ID: ${productId}`);
+    // Send AJAX request to add to cart
+    fetch('../actions/add_to_cart_action.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `product_id=${productId}&quantity=1`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            // Show success message
+            showCartMessage(data.message, 'success');
+            // Update cart count if function exists
+            if (typeof updateCartCount === 'function') {
+                updateCartCount(data.cart_count);
+            }
+        } else {
+            showCartMessage(data.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showCartMessage('Failed to add to cart. Please try again.', 'error');
+    });
+}
+
+// Show cart message
+function showCartMessage(message, type = 'info') {
+    // Create alert element
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type === 'error' ? 'danger' : type === 'success' ? 'success' : 'info'} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3`;
+    alertDiv.style.zIndex = '9999';
+    alertDiv.style.minWidth = '300px';
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+
+    // Add to body
+    document.body.appendChild(alertDiv);
+
+    // Auto-remove after 3 seconds
+    setTimeout(() => {
+        alertDiv.classList.remove('show');
+        setTimeout(() => alertDiv.remove(), 150);
+    }, 3000);
 }
 
 // Show error message

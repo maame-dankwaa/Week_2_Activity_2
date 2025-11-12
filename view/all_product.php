@@ -40,7 +40,15 @@ require_once '../settings/core.php';
             <div class="nav-page">
                 <a href="../index.php">Home</a>
                 <a href="../view/all_product.php">All Products</a>
-                <a href="../login/logout.php">Logout</a>
+                <a href="../view/cart.php" class="position-relative">
+                    <i class="fas fa-shopping-cart"></i> Cart
+                    <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;">0</span>
+                </a>
+                <?php if (isUserLoggedIn()): ?>
+                    <a href="../login/logout.php">Logout</a>
+                <?php else: ?>
+                    <a href="../login/login.php">Login</a>
+                <?php endif; ?>
             </div>
             <h1><i class="fa fa-box me-2"></i>All Products</h1>
             <p>Discover our amazing collection of products</p>
@@ -101,6 +109,7 @@ require_once '../settings/core.php';
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/cart.js"></script>
     <script src="../js/product_search.js"></script>
 </body>
 </html>
