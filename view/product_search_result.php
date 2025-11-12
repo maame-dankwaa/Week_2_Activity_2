@@ -30,8 +30,8 @@ if (!empty($query)) {
 }
 
 // Get categories and brands for filters
-$categories = get_categories_for_brand_ctr(1);
-$brands = get_brands_for_product_ctr(1);
+$categories = get_all_categories_ctr();
+$brands = get_all_brands_ctr();
 ?>
 
 <!DOCTYPE html>
@@ -130,8 +130,8 @@ $brands = get_brands_for_product_ctr(1);
                 <?php foreach ($products as $product): ?>
                     <div class="product-card" onclick="viewProduct(<?php echo $product['product_id']; ?>)">
                         <?php if (!empty($product['product_image'])): ?>
-                            <img src="uploads/<?php echo htmlspecialchars($product['product_image']); ?>" 
-                                 alt="<?php echo htmlspecialchars($product['product_title']); ?>" 
+                            <img src="../uploads/<?php echo htmlspecialchars($product['product_image']); ?>"
+                                 alt="<?php echo htmlspecialchars($product['product_title']); ?>"
                                  class="product-image">
                         <?php else: ?>
                             <div class="product-image" style="display: flex; align-items: center; justify-content: center; color: #6c757d;">
