@@ -91,3 +91,13 @@ function get_categories_for_brand_ctr($user_id)
     $category = new Category();
     return $category->getCategoriesByUser($user_id);
 }
+
+/**
+ * Get all brands (for public view)
+ * @return array|false
+ */
+function get_all_brands_ctr()
+{
+    $brand = new Brand();
+    return $brand->getAllBrands();
+}

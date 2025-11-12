@@ -55,4 +55,14 @@ function get_category_by_id_ctr($cat_id, $user_id)
     }
     return false;
 }
+
+/**
+ * Get all categories (for public view)
+ * @return array|false
+ */
+function get_all_categories_ctr()
+{
+    $category = new Category();
+    return $category->getAllCategories();
+}
 ?>

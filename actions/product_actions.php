@@ -172,8 +172,8 @@ switch ($action) {
 
     case 'get_categories':
         require_once '../controllers/category_controller.php';
-        $categories = get_categories_for_brand_ctr(1); // Get all categories for dropdown
-        
+        $categories = get_all_categories_ctr(); // Get all categories for dropdown
+
         if ($categories !== false) {
             $response['status'] = 'success';
             $response['data'] = $categories;
@@ -185,8 +185,8 @@ switch ($action) {
 
     case 'get_brands':
         require_once '../controllers/brand_controller.php';
-        $brands = get_brands_for_product_ctr(1); // Get all brands for dropdown
-        
+        $brands = get_all_brands_ctr(); // Get all brands for dropdown
+
         if ($brands !== false) {
             $response['status'] = 'success';
             $response['data'] = $brands;
