@@ -36,13 +36,20 @@ if (!$product) {
             <a href="all_product.php" class="back-link">
                 <i class="fa fa-arrow-left me-2"></i>Back to All Products
             </a>
-            
+
             <div class="breadcrumb">
                 <a href="../index.php">Home</a>
                 <span class="separator">></span>
                 <a href="all_product.php">Products</a>
                 <span class="separator">></span>
                 <span><?php echo htmlspecialchars($product['product_title']); ?></span>
+            </div>
+
+            <div style="position: absolute; top: 20px; right: 20px;">
+                <a href="cart.php" class="btn btn-light position-relative">
+                    <i class="fas fa-shopping-cart"></i> Cart
+                    <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;">0</span>
+                </a>
             </div>
         </div>
     </div>
@@ -118,15 +125,30 @@ if (!$product) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/cart.js"></script>
     <script>
-        function addToCart(productId) {
-            // Placeholder for add to cart functionality
-            alert('Add to Cart functionality will be implemented in future labs. Product ID: ' + productId);
-        }
-
         function buyNow(productId) {
-            // Placeholder for buy now functionality
-            alert('Buy Now functionality will be implemented in future labs. Product ID: ' + productId);
+            // Add to cart with quantity 1, then redirect to checkout
+            fetch('../actions/add_to_cart_action.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `product_id=${productId}&quantity=1`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Redirect to checkout
+                    window.location.href = '../view/checkout.php';
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
         }
     </script>
 </body>
